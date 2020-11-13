@@ -52,7 +52,7 @@ GPIO.output(Amarillo, GPIO.HIGH)
 
 try:
 	while True:
-		#establece el trigger EN BAJO 
+		#establece el trigger EN BAJO
 		GPIO.output(Trigger,False)
 		time.sleep(0.5)
 
@@ -60,8 +60,8 @@ try:
 		time.sleep(0.00001)
 		GPIO.output(Trigger,False)
 		inicio = time.time()
-	
-		#mientras no se reciba nada el tiempo 
+
+		#mientras no se reciba nada el tiempo
 		while GPIO.input(Echo)==0:
 			inicio=time.time()
 
@@ -79,21 +79,30 @@ try:
 		#se divide la distancia en 2 por el recorrido de ida y vuelta
 		distancia=distancia/2
 
-		if distancia >= 10 and distancia < 20:
+		if distancia >= 15 and distancia < 40:
 			GPIO.output(Verde, GPIO.LOW)
 			GPIO.output(Rojo, GPIO.LOW)
 			GPIO.output(Amarillo, GPIO.HIGH)
-			GPIO.setup(Buzzer, GPIO.IN)	
-		elif distancia < 10:
+			GPIO.setup(Buzzer, GPIO.OUT)
+			time.sleep(0.12)
+			GPIO.setup(Buzzer, GPIO.IN)
+			time.sleep(0.12)
+		elif distancia < 15:
 			GPIO.output(Rojo, GPIO.HIGH)
 			GPIO.output(Verde, GPIO.LOW)
 			GPIO.output(Amarillo, GPIO.LOW)
-			GPIO.setup(Buzzer, GPIO.OUT)			
-		elif distancia > 20:
+			GPIO.setup(Buzzer, GPIO.OUT)
+			time.sleep(0.04)
+			GPIO.setup(Buzzer, GPIO.IN)
+			time.sleep(0.04)
+		elif distancia > 40:
 			GPIO.output(Rojo, GPIO.LOW)
 			GPIO.output(Verde, GPIO.HIGH)
 			GPIO.output(Amarillo, GPIO.LOW)
-			GPIO.setup(Buzzer, GPIO.IN)		
+			GPIO.setup(Buzzer, GPIO.OUT)
+			time.sleep(0.2)
+			GPIO.setup(Buzzer, GPIO.IN)
+			time.sleep(0.2)
 		print "Distancia=%.1fcm"%distancia
 		collection.insert_one({'distancia': distancia})
 except KeyboardInterrupt:
