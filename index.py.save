@@ -1,0 +1,65 @@
+import RPi.GPIO as GPIO
+import time
+
+#Configuracionde pines
+GPIO.setmode(GPIO.BOARD)
+
+Trigger = 10
+Echo = 12
+Verde = 16
+Rojo = 18
+
+GPIO.setmode(GPIO.BOARD)
+
+GPIO.setup(Trigger,GPIO.OUT)
+GPIO.setup(Echo,GPIO.IN)
+GPIO.setup(Verde,GPIO.OUT)
+GPIO.setup(Rojo,GPIO.OUT)
+
+
+print "Sensor Ultrasonico"
+
+GPIO.output(Verde, GPIO.HIGH)
+GPIO.output(Rojo, GPIO.HIGH)
+
+
+try:
+	while True:
+		#establece el trigger EN BAJO 
+		GPIO.output(Trigger,False)
+		time.sleep(0.5)
+
+		GPIO.output(Trigger,True)
+		time.sleep(0.00001)
+		GPIO.output(Trigger,False)
+		inicio = time.time()
+	
+		#mientras no se reciba nada el tiempo 
+		while GPIO.input(Echo)==0:
+			inicio=time.time()
+
+		while GPIO.input(Echo)==1:
+			final=time.time()
+
+
+		#calcular el tiempo transcurrido
+		t_transcurrido=final-inicio
+
+		#la distancia recorrida en ese momento
+		distancia=t_transcurrido*34000
+
+
+		#se divide la distancia en 2 por el recorrido de ida y vuelta
+		distancia=distancia/2
+		if distancia >= 10:
+			GPIO.output(Verde, GPIO.HIGH)
+			GPIO.output(Rojo, GPIO.LOW)
+		elif distancia < 10:
+			GPIO.output(Rojo, GPIO.HIGH)
+			GPIO.output(Verde, GPIO,LOW)
+		else:
+			GPIO.output(Rojo, )
+
+		print "Distancia=%.1fcm"%distancia
+except KeyboardInterrupt:
+	GPIO.cleanup()
