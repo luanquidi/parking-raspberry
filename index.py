@@ -11,12 +11,13 @@ import time
 #Configuracionde pines
 GPIO.setmode(GPIO.BOARD)
 
-Trigger = 10
-Echo = 12
-Verde = 16
-Rojo = 22
-Amarillo = 18
-Buzzer = 24
+Trigger = 5
+Echo = 3
+Verde = 33
+Rojo = 37
+Amarillo = 35
+Buzzer = 11
+
 
 GPIO.setmode(GPIO.BOARD)
 
